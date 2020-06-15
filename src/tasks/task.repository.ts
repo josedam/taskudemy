@@ -9,10 +9,12 @@ import { User } from "src/auth/user.entity";
 export class TaskRepository extends Repository<Task> {
 
 
-    async getTasks(filterTask: GetTasksFilterDto): Promise<Task[]> {
+    async getTasks(filterTask: GetTasksFilterDto, user:User ): Promise<Task[]> {
         const {status, search} = filterTask;
         const query = this.createQueryBuilder('task');
 
+        query.where('task.userId = :userId', {userId: user.id});
+        
         if(status){
             query.andWhere('task.status = :status',{status});
         }
@@ -28,7 +30,8 @@ export class TaskRepository extends Repository<Task> {
     async createTask(
         createTaskDto: CreateTaskDto,
         user: User,
-        ): Promise<Task> {
+     ): Promise<Task> {
+    
         const {title, description} = createTaskDto;
         const task: Task  = new Task; // this.create(); //   new Task;
 
