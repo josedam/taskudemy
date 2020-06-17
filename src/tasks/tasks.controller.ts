@@ -25,7 +25,7 @@ export class TasksController {
         @GetUser() user: User
         )  {
     
-        this.logger.verbose(`User [${user.username}] geting all. filter ${JSON.stringify(filterDto)}`);
+        // this.logger.verbose(`User [${user.username}] geting all. filter ${JSON.stringify(filterDto)}`);
         return this.taskService.getTasks(filterDto, user);
     };
  
@@ -47,7 +47,7 @@ export class TasksController {
         @GetUser() user: User,
     ) : Promise<Task> {
 
-        this.logger.verbose(`User [${user.username}] create task. data ${JSON.stringify(createTaskDto)}`);  
+        // this.logger.verbose(`User [${user.username}] create task. data ${JSON.stringify(createTaskDto)}`);  
       return this.taskService.createTask(createTaskDto, user);  
 
     }

@@ -1,3 +1,6 @@
+server:
+  origin: http://damasio-task-management-frontend.s3-website-sa-east-1.amazonaws.com
+
 db:
   synchronize: false
 
