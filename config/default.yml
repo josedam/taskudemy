@@ -4,7 +4,7 @@ server:
 db:
   type: 'mysql'
   port: 3306
-  database: 'taskmanagement'
+  database: 'sanatorial'
 
 jwt:
   expiresIn: 3600

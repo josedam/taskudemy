@@ -10,12 +10,12 @@ export class AuthController {
         private authService: AuthService
     ){}
 
-    @Post('/signup')
+    @Post('/register')
     signUp(@Body(ValidationPipe) authCredentialDto: AuthCredentialsDto): Promise<void> {
         return this.authService.signUp(authCredentialDto);
     }
 
-    @Post('/signin')
+    @Post('/login')
     signIn(@Body(ValidationPipe) authCredentialDto: AuthCredentialsDto): Promise<JwtAccessToken> {
         return this.authService.signIn(authCredentialDto);
     }

@@ -2,15 +2,17 @@ import { Repository, EntityRepository } from "typeorm";
 import { User } from "./user.entity";
 import { AuthCredentialsDto } from "./dto/auth-credentials.dto";
 import { ConflictException, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
+import { UserRol } from "./user-rol-enum";
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
 
     async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
         const {username, password } = authCredentialsDto;
-        const user = new User();
+        const user = new User(); // this.create(); //new User();
        
         user.username = username;
+        user.rol = UserRol.USER;
         await user.setPassword(password);
 
         try {
@@ -25,30 +27,24 @@ export class UserRepository extends Repository<User> {
         }
     }
    
-    async validateUserPassword(authCredentialsDto: AuthCredentialsDto): Promise<string> {
+    async validateUserPassword(authCredentialsDto: AuthCredentialsDto): Promise<User> {
         const {username, password} = authCredentialsDto;
         const user = await this.validateUser(username);  // findOne({username});
 
         return await this.validatePassword(user, password);
-
-        // if(user && await user.validatePassword(password)) {
-        //     return user.username;
-        // } else {
-        //     return null;
-        // }
     }
 
-    async validatePassword(user: User, password: string): Promise<string> {
+    async validatePassword(user: User, password: string): Promise<User> {
         if(!(await user.validatePassword(password))) {
-            throw new UnauthorizedException('Invalid Credentials');
+            throw new UnauthorizedException('Credenciales Incorrectas');
         }
-        return user.username;
+        return user; // .username;
     }
 
     async validateUser(username: string): Promise<User> {
         const user = await this.findOne({username});
         if(! user) {
-            throw new UnauthorizedException('Invalid Credentials');
+            throw new UnauthorizedException('Credenciales Incorrectas');
         }
         return user;
     }
